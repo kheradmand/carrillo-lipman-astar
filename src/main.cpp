@@ -15,7 +15,7 @@ int main(){
 	cin >> s1 >> s2;
 
 	scoring_function_t score;
-	naive_aligner_t naive_aligner{score};
+	dp_aligner_t naive_aligner{score};
 
 	const auto res = naive_aligner.get_alignment({s1,s2});
 

@@ -16,6 +16,8 @@
 class aligner_t {
 protected:
 	scoring_function_t& scoring;
+
+
 public:
 
 	aligner_t(scoring_function_t& _scoring) : scoring(_scoring) {}

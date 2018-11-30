@@ -17,62 +17,9 @@
  * Implementation of the naive dynamic programming approach for multiple sequence alignment
  * O(k^2.2^k.n^k) in time and O(n^k) in memory for k sequences of length n
  */
-class naive_aligner_t : public aligner_t {
-private:
-
-	struct position_util_t{
-		std::vector<size_t> lens;
-		std::vector<size_t> cumulative_lens;
-		position_util_t(const sequences_t& seqs){
-			cumulative_lens.push_back(1);
-
-			for (const auto& s : seqs){
-				lens.push_back(s.size());
-				cumulative_lens.push_back(cumulative_lens.back() * (s.size() + 1));
-			}
-		}
-
-		std::size_t convert(const positions_t pos){
-			assert(pos.size() == lens.size());
-			std::size_t ret = 0;
-			for (auto i = 0 ; i < lens.size(); i++){
-				ret += (pos[i]) * cumulative_lens[i];
-			}
-			return ret;
-		}
-
-		std::size_t space_size(){
-			return cumulative_lens.back();
-		}
-
-		positions_t first_pos(){
-			return positions_t(lens.size(), 0);
-		}
-		positions_t last_pos(){
-			return lens;
-		}
-
-		void get_next_pos(positions_t& pos){
-			auto d = 0;
-			while (d < lens.size()){
-				if (pos[d] == lens[d]){
-					pos[d] = 0;
-					++d;
-				} else {
-					pos[d] ++;
-					break;
-				}
-			}
-			assert(d < lens.size());
-		}
-	};
-
-
-
-	typedef unsigned long long permutation_t;
-
+class dp_aligner_t : public aligner_t {
 public:
-	naive_aligner_t(scoring_function_t& _scoring) : aligner_t(_scoring){}
+	dp_aligner_t(scoring_function_t& _scoring) : aligner_t(_scoring){}
 
 	std::pair<sequences_t,score_t> get_alignment(const sequences_t& seqs) {
 		//std::cerr << "starting to align" << std::endl;
