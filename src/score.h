@@ -16,6 +16,8 @@ const char GAP = '-';
 
 typedef long long score_t;
 
+typedef std::vector<char> chars_t;
+
 const score_t MINUS_INFINITY = std::numeric_limits<score_t>::min();
 
 struct scoring_function_t {
@@ -24,8 +26,9 @@ struct scoring_function_t {
 	scoring_function_t(){
 		memset(scoring_matrice, -1, sizeof(scoring_matrice));
 		for (auto i = 0 ; i < 256; i++){
-			scoring_matrice[i][i] = 0;
+			scoring_matrice[i][i] = 1;
 		}
+		scoring_matrice[GAP][GAP] = 0;
 	}
 
 	score_t sp_score(const chars_t& chars){
@@ -42,6 +45,7 @@ struct scoring_function_t {
 	}
 
 	inline score_t score(const char c1, const char c2){
+		//std::cout << "checking score of " << c1 << "," << c2 << std::endl;
 		return scoring_matrice[c1][c2];
 	}
 };

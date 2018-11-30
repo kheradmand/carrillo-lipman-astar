@@ -12,12 +12,12 @@
 #include <vector>
 #include <iostream>
 #include <cassert>
+#include "score.h"
 
 typedef std::string sequence_t;
 typedef std::vector<sequence_t> sequences_t;
 
 typedef std::vector<std::size_t> positions_t;
-typedef std::vector<char> chars_t;
 
 typedef std::size_t index_t;
 typedef unsigned long long permutation_t;
@@ -47,7 +47,7 @@ struct position_util_t{
 
 	void convert_back(index_t index, positions_t& pos){
 		pos.resize(lens.size());
-		for (auto d = lens.size() - 1; d >=0; d--){
+		for (int d = lens.size() - 1; d >= 0; d--){
 			pos[d] = index / cumulative_lens[d];
 			index %= cumulative_lens[d];
 		}
@@ -70,12 +70,12 @@ struct position_util_t{
 
 	std::pair<bool, index_t> get_backward_neighbor_by_index(index_t index, const permutation_t permutation, chars_t& chars, const sequences_t& seqs){
 		index_t neighbor = index;
-		for (auto d = lens.size() - 1; d >=0; d--){
+		for (int d = lens.size() - 1; d >= 0; d--){
 			if (permutation & (1 << d)){
 				if (cumulative_lens[d] > index){
 					return {false, 0};
 				} else {
-					index -= cumulative_lens[d];
+					neighbor -= cumulative_lens[d];
 					const auto pos_d = index/cumulative_lens[d];
 					chars[d] = seqs[d][pos_d - 1];
 				}
@@ -84,18 +84,18 @@ struct position_util_t{
 			}
 			index %= cumulative_lens[d];
 		}
-		return true;
+		return {true, neighbor};
 	}
 
 	std::pair<bool, index_t> get_forward_neighbor_by_index(index_t index, const permutation_t permutation, chars_t& chars, const sequences_t& seqs){
 		index_t neighbor = index;
-		for (auto d = lens.size() - 1; d >=0; d--){
+		for (int d = lens.size() - 1; d >= 0; d--){
 			if (permutation & (1 << d)){
 				const auto pos_d = index/cumulative_lens[d];
 				if (pos_d >= lens[d]){
 					return {false, 0};
 				} else {
-					index += cumulative_lens[d];
+					neighbor += cumulative_lens[d];
 					chars[d] = seqs[d][pos_d];
 				}
 			} else {
@@ -103,7 +103,8 @@ struct position_util_t{
 			}
 			index %= cumulative_lens[d];
 		}
-		return true;
+		//std::cerr << "get_forward_neigbor_by_index for " << index << " with perm " << permutation  << " is " <<  neighbor  << std::endl;
+		return {true, neighbor};
 	}
 
 

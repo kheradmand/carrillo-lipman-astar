@@ -8,7 +8,6 @@
 #ifndef SRC_ALIGNER_H_
 #define SRC_ALIGNER_H_
 
-#include "score.h"
 #include "sequence.h"
 
 

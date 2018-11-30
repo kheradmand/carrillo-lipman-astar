@@ -107,8 +107,8 @@ public:
 			std::reverse(alignment[d].begin(), alignment[d].end());
 		}
 
-		delete best_scores;
-		delete parents;
+		delete[] best_scores;
+		delete[] parents;
 
 		return {alignment, best_score};
 	}

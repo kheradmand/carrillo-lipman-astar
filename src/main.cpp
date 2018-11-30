@@ -7,25 +7,27 @@
 
 #include <iostream>
 
-#include "naive_aligner.h"
+#include "dp_aligner.h"
+#include "astar_aligner.h"
 using namespace std;
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
+	sequences_t seqs;
+	string s;
+	while (cin >> s){
+		seqs.push_back(s);
+	}
 
 	scoring_function_t score;
-	dp_aligner_t naive_aligner{score};
+	//dp_aligner_t aligner{score};
+	astar_aligner_t aligner{score};
 
-	const auto res = naive_aligner.get_alignment({s1,s2});
+	const auto res = aligner.get_alignment(seqs);
 
 	cout << "score: " << res.second << endl;
 	for (const auto& s : res.first){
 		cout << s << endl;
 	}
-
-
-
 }
 
 
