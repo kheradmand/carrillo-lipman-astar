@@ -149,7 +149,7 @@ struct position_util_t{
 };
 
 
-std::ostream& operator<<(std::ostream& out, const positions_t pos){
+std::ostream& operator<<(std::ostream& out, const positions_t& pos){
 	out << "(";
 	for (auto i = 0; i < pos.size(); i++){
 		out << pos[i] << ((i == pos.size() - 1) ? "" : ",");
@@ -158,12 +158,20 @@ std::ostream& operator<<(std::ostream& out, const positions_t pos){
 	return out;
 }
 
-std::ostream& operator<<(std::ostream& out, const chars_t chars){
+std::ostream& operator<<(std::ostream& out, const chars_t& chars){
 	out << "{";
 	for (auto i = 0; i < chars.size(); i++){
 		out << chars[i] << ((i == chars.size() - 1) ? "" : ",");
 	}
 	out << "}";
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const sequences_t& seqs){
+	out << std::endl;
+	for (auto i = 0; i < seqs.size(); i++){
+		out << seqs[i] << std::endl;
+	}
 	return out;
 }
 

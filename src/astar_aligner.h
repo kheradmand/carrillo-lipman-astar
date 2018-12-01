@@ -5,8 +5,8 @@
  *      Author: ali
  */
 
-#ifndef SRC_EFFICIENT_ALIGNER_H_
-#define SRC_EFFICIENT_ALIGNER_H_
+#ifndef SRC_ASTAR_ALIGNER_H_
+#define SRC_ASTAR_ALIGNER_H_
 
 #include "aligner.h"
 #include "carrillo_lipman.h"
@@ -141,4 +141,4 @@ public:
 
 
 
-#endif /* SRC_EFFICIENT_ALIGNER_H_ */
+#endif /* SRC_ASTAR_ALIGNER_H_ */

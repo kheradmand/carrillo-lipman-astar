@@ -20,6 +20,7 @@ public:
 		dims = seqs.size();
 		assert(dims > 1);
 		scores = new score_t*[dims * dims];
+		memset(scores, 0, dims * dims * sizeof(score_t*));
 
 		for (auto i = 0; i < dims; i++){
 			for (auto j = i + 1; j < dims; j++){
@@ -29,7 +30,7 @@ public:
 	}
 
 	~carrillo_lipman_score_t(){
-		for (auto i = 0; i < ((dims - 1) * dims) / 2; i++){
+		for (auto i = 0; i < dims * dims; i++){
 			delete scores[i];
 		}
 		delete scores;
@@ -86,6 +87,26 @@ public:
 			}
 		}
 		return ret;
+	}
+
+	std::size_t find_center(){
+		std::size_t center = 0;
+		score_t best_score = MINUS_INFINITY;
+		for (auto i = 0; i < dims; i++){
+			score_t score = 0;
+			for (auto j = 0 ; j < i; j++){
+				score += scores[j * dims + i][0];
+			}
+			for (auto j = i + 1; j < dims; j++){
+				score += scores[i * dims + j][0];
+			}
+			if (score > best_score){
+				center = i;
+				best_score = score;
+			}
+		}
+		std::cerr << "center index is " << center << " with score " << best_score << std::endl;
+		return center;
 	}
 
 };

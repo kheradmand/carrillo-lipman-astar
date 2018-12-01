@@ -40,7 +40,7 @@ struct scoring_function_t {
 				ret += scoring_matrice[chars[i]][chars[j]];
 			}
 		}
-		//std::cout << "returning " << ret << std::endl;
+		std::cout << "returning " << ret << std::endl;
 		return ret;
 	}
 
