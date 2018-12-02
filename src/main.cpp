@@ -30,26 +30,17 @@ int main(){
 	}
 
 	scoring_function_t score;
-//	//dp_aligner_t aligner{score};
-//	//astar_aligner_t aligner{score};
-//	cl_star_aligner_t aligner{score};
-//
-//	const auto res = aligner.get_alignment(seqs);
-//
-//	cout << "score: " << res.second << endl;
-//	for (const auto& s : res.first){
-//		cout << s << endl;
-//	}
+
 
 	dp_aligner_t dp_aligner{score};
 	astar_aligner_t astar_aligner{score};
 	cl_star_aligner_t cl_star_aligner{score};
 
-	cout << "with dp_aligner:" << endl;
-	get_and_print_alignment(seqs, dp_aligner);
+//	cout << "with dp_aligner:" << endl;
+//	get_and_print_alignment(seqs, dp_aligner);
 
-	cout << "with astar_aligner:" << endl;
-	get_and_print_alignment(seqs, astar_aligner);
+//	cout << "with astar_aligner:" << endl;
+//	get_and_print_alignment(seqs, astar_aligner);
 
 	cout << "with cl_star_aligner:" << endl;
 	get_and_print_alignment(seqs, cl_star_aligner);

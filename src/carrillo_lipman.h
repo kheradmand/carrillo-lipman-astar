@@ -55,7 +55,7 @@ public:
 				const auto cc = best_scores[convert(a, i + 1, j + 1)] + scoring.score(a[i], b[j]);
 				const auto c_ = best_scores[convert(a, i + 1, j)] + scoring.score(a[i], GAP);
 				const auto _c = best_scores[convert(a, i, j + 1)] + scoring.score(GAP, b[j]);
-				best_scores[convert(a, i, j)] = std::max(cc, std::max(_c,c_));
+				best_scores[convert(a, i, j)] = std::min(cc, std::min(_c,c_));
 			}
 		}
 
@@ -91,7 +91,7 @@ public:
 
 	std::size_t find_center(){
 		std::size_t center = 0;
-		score_t best_score = MINUS_INFINITY;
+		score_t best_score = INF;
 		for (auto i = 0; i < dims; i++){
 			score_t score = 0;
 			for (auto j = 0 ; j < i; j++){
@@ -100,7 +100,7 @@ public:
 			for (auto j = i + 1; j < dims; j++){
 				score += scores[i * dims + j][0];
 			}
-			if (score > best_score){
+			if (score < best_score){
 				center = i;
 				best_score = score;
 			}

@@ -30,11 +30,11 @@ private:
 		bool operator()(const node_t& a, const node_t& b) const {
 			if (a.f + a.g == b.f + b.g){
 				if (a.index == b.index){
-					return a.parent < b.parent;
+					return a.parent > b.parent;
 				}
-				return a.index < b.index;
+				return a.index > b.index;
 			}
-			return a.f + a.g < b.f + b.g;
+			return a.f + a.g > b.f + b.g;
 		}
 	};
 
@@ -66,7 +66,7 @@ public:
 
 		openset.emplace(node_t{first_index, 0, 0, 0});
 
-		score_t best_score = MINUS_INFINITY;
+		score_t best_score = INF;
 
 		chars_t chars(dims);
 		positions_t neighbor_pos(dims);

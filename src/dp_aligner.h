@@ -5,8 +5,8 @@
  *      Author: ali
  */
 
-#ifndef SRC_NAIVE_ALIGNER_H_
-#define SRC_NAIVE_ALIGNER_H_
+#ifndef SRC_DP_ALIGNER_H_
+#define SRC_DP_ALIGNER_H_
 
 #include "aligner.h"
 #include <vector>
@@ -42,7 +42,7 @@ public:
 			pu.get_next_pos(pos);
 			//std::cerr << "at possition " << pos << std::endl;
 			const auto pos_index = pu.convert(pos);
-			best_scores[pos_index] = MINUS_INFINITY;
+			best_scores[pos_index] = INF;
 			parents[pos_index] = 0;
 
 			for (auto d = 0; d < dims; d++){
@@ -70,7 +70,7 @@ public:
 				if (valid){
 					//std::cerr << "neighbor is " << neighbor << "chars are " << chars << std::endl;
 					const auto nei_score = best_scores[pu.convert(neighbor)] + scoring.sp_score(chars);
-					if (best_scores[pos_index] < nei_score){
+					if (best_scores[pos_index] > nei_score){
 						best_scores[pos_index] = nei_score;
 						parents[pos_index] = permutation;
 					}
@@ -117,4 +117,4 @@ public:
 
 
 
-#endif /* SRC_NAIVE_ALIGNER_H_ */
+#endif /* SRC_DP_ALIGNER_H_ */

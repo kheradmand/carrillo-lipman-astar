@@ -19,6 +19,7 @@
  * Implementation of multiple sequence alignment using Carrillo-Lipman speed up method
  * Using tree alignment on center star (a 2-approximation of the optimal solution) to get the initial alignment score
  */
+
 class cl_star_aligner_t : public aligner_t {
 private:
 
@@ -33,11 +34,11 @@ private:
 		bool operator()(const node_t& a, const node_t& b) const {
 			if (a.f == b.f){
 				if (a.index == b.index){
-					return a.parent < b.parent;
+					return a.parent > b.parent;
 				}
-				return a.index < b.index;
+				return a.index > b.index;
 			}
-			return a.f < b.f ;
+			return a.f > b.f ;
 		}
 	};
 
@@ -114,7 +115,7 @@ public:
 
 		openset.emplace(node_t{first_index, 0, 0});
 
-		score_t best_score = MINUS_INFINITY;
+		score_t best_score = INFINITY;
 
 		chars_t chars(dims);
 		positions_t pos(dims);
@@ -128,7 +129,7 @@ public:
 				continue;
 			parents.emplace(node.index, node.parent);
 
-			std::cerr << "at index " << node.index << " with f " << node.f << std::endl;
+			//std::cerr << "at index " << node.index << " with f " << node.f << std::endl;
 
 			if (node.index == last_index){
 				best_score = node.f;
@@ -136,25 +137,25 @@ public:
 			}
 
 			pu.convert_back(node.index, pos);
-			std::cerr << "at pos " << pos << std::endl;
+			//std::cerr << "at pos " << pos << std::endl;
 
 			const auto cl_score = carillo_lipman_score.get_score(seqs, pos);
-			//if (node.f + cl_score < z){
-				//std::cerr << " skipping the node because " << node.f << " + " << cl_score << " < " << z << std::endl;
-			//	continue;
-			//}
+			if (node.f + cl_score > z){
+				//std::cerr << " skipping the node because " << node.f << " + " << cl_score << " > " << z << std::endl;
+				continue;
+			}
 
 			for (permutation_t permutation = 1; permutation < (1 << dims); permutation++){
 				index_t neighbor_index;
 				bool valid;
 				std::tie(valid, neighbor_index) = pu.get_forward_neighbor_by_index(node.index, permutation, chars, seqs);
-				std::cerr << "valid: " << valid << " neighbor index " << neighbor_index << std::endl;
+				//std::cerr << "valid: " << valid << " neighbor index " << neighbor_index << std::endl;
 
 				if (not valid or parents.find(neighbor_index) != parents.end())
 					continue;
 
-				std::cerr << "at neighbor index " << neighbor_index << std::endl;
-				{positions_t neighbor_pos; pu.convert_back(neighbor_index, neighbor_pos); std::cerr << "neigbor pos " << neighbor_pos << std::endl;}
+				//std::cerr << "at neighbor index " << neighbor_index << std::endl;
+				//{positions_t neighbor_pos; pu.convert_back(neighbor_index, neighbor_pos); std::cerr << "neigbor pos " << neighbor_pos << std::endl;}
 
 				const auto sp_score = scoring.sp_score(chars);
 				openset.emplace(node_t{neighbor_index, node.f + sp_score, permutation});

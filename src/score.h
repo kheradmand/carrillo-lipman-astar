@@ -18,15 +18,21 @@ typedef long long score_t;
 
 typedef std::vector<char> chars_t;
 
-const score_t MINUS_INFINITY = std::numeric_limits<score_t>::min();
+//const score_t MINUS_INFINITY = std::numeric_limits<score_t>::min();
+const score_t INF = std::numeric_limits<score_t>::max();
 
 struct scoring_function_t {
 	score_t scoring_matrice[256][256];
 
 	scoring_function_t(){
-		memset(scoring_matrice, -1, sizeof(scoring_matrice));
+		//memset to 1 does do not work since it works per byte
 		for (auto i = 0 ; i < 256; i++){
-			scoring_matrice[i][i] = 1;
+			for (auto j = 0 ; j < 256; j++){
+				scoring_matrice[i][j] = 1;
+			}
+		}
+		for (auto i = 0 ; i < 256; i++){
+			scoring_matrice[i][i] = 0;
 		}
 		scoring_matrice[GAP][GAP] = 0;
 	}
@@ -35,12 +41,12 @@ struct scoring_function_t {
 		score_t ret = 0;
 		for (auto i = 0; i < chars.size(); i++){
 			for (auto j = i + 1; j < chars.size(); j++){
-				if (scoring_matrice[chars[i]][chars[j]] == MINUS_INFINITY)
-					return MINUS_INFINITY;
+				if (scoring_matrice[chars[i]][chars[j]] == INF)
+					return INF;
 				ret += scoring_matrice[chars[i]][chars[j]];
 			}
 		}
-		std::cout << "returning " << ret << std::endl;
+		//std::cout << "returning " << ret << std::endl;
 		return ret;
 	}
 
