@@ -9,6 +9,7 @@
 #define SRC_SCORE_H_
 
 #include <limits>
+#include <fstream>
 #include <unordered_map>
 #include "sequence.h"
 
@@ -24,18 +25,54 @@ const score_t INF = std::numeric_limits<score_t>::max();
 struct scoring_function_t {
 	score_t scoring_matrice[256][256];
 
-	scoring_function_t(){
+	void reset(score_t v){
 		//memset to 1 does do not work since it works per byte
 		for (auto i = 0 ; i < 256; i++){
 			for (auto j = 0 ; j < 256; j++){
-				scoring_matrice[i][j] = 1;
+				scoring_matrice[i][j] = v;
 			}
 		}
+	}
+
+	void set_score(const char c1, const char c2, score_t s){
+		//std::cout << "setting " << c1 << " " << c2 << " to " << s << std::endl;
+		scoring_matrice[c1][c2] = s;
+		scoring_matrice[c2][c1] = s;
+	}
+
+	scoring_function_t(){
+		reset(1);
 		for (auto i = 0 ; i < 256; i++){
 			scoring_matrice[i][i] = 0;
 		}
 		scoring_matrice[GAP][GAP] = 0;
 	}
+
+	scoring_function_t(const std::string& filename){
+		//reading the scores from file
+		reset(INF);
+		std::ifstream fin(filename);
+		assert(fin.is_open());
+		chars_t chars;
+		char c;
+		//std::cout << "reading "<< std::endl;
+		while (fin >> c){
+			if (c == '#') { //comment;
+				std::string temp;
+				std::getline(fin, temp);
+				//std::cout << "skipping " << temp << std::endl;
+			} else {
+				chars.push_back(c);
+				for (auto cp : chars){
+					score_t s;
+					fin >> s;
+					set_score(c, cp, s);
+				}
+			}
+		}
+	}
+
+
 
 	score_t sp_score(const chars_t& chars){
 		score_t ret = 0;
