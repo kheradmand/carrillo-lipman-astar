@@ -2,7 +2,7 @@
 # source: https://www.ncbi.nlm.nih.gov/Class/BLAST/BLOSUM62.txt
 # converted the scores by negating the the original matrix, and adding
 # m + 1 to to all cells where m is the minimum cell in the negated matrix
-# A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y
+# A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y  -
 A 8 
 C 12 3 
 D 14 15 6 

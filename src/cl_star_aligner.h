@@ -115,7 +115,7 @@ public:
 
 		openset.emplace(node_t{first_index, 0, 0});
 
-		score_t best_score = INFINITY;
+		score_t best_score = INF;
 
 		chars_t chars(dims);
 		positions_t pos(dims);

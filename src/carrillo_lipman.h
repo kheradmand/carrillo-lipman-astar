@@ -9,6 +9,7 @@
 #define SRC_CARRILLO_LIPMAN_H_
 
 #include "score.h"
+#include <cstring>
 
 class carrillo_lipman_score_t {
 	scoring_function_t& scoring;
