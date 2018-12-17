@@ -1,19 +1,18 @@
 Carrillo-Lipman A*
 ===================
 
-A central problem in multiple string comparison is the Multiple SequenceAlignment (MSA) problem.
+A central problem in multiple string comparison is the Multiple Sequence Alignment (MSA) problem.
 An easy to work with and widely used scoring function for measuring the goodness of a multiple alignment is the SP-score.
 
-
 The MSA problem with SP-score (MSA-SP) is known to be NP-complete. 
-The naive dynamic programming approach to this problem has the running time of O(2^kk^2n^k) for k strings of length. 
+The naive dynamic programming approach to this problem has the running time of O(2^kk^2n^k) for k strings of length around n. 
 The problem can also be viewed as a graph search problem. 
 
 Carillo and Lipman show an interesting observation that can be used to provide a proper heuristic function for an A* to solve the MSA-SP problem.
-Note that originally, Carillo and Lipman used this observation in a different optimization that uses a non-optimal path z to prune the dynamic programming.
-z is obtained using some efficient approximate or heuristic approach. 
+Note that originally, Carillo and Lipman used this observation in a different optimization that uses a non-optimal path z to prune the search space.
+z is obtained using any efficient but approximate or heuristic approach. 
 
-Here compare the performance of all three approaches: the naive dynamic programming approach, the original Carillo-Lipman speedup, and implementation of A* using Carillo-Lipman as the heuristic function. 
+Here we compare the performance of all three approaches: the naive dynamic programming approach, the original Carillo-Lipman speedup, and implementation of A* using Carillo-Lipman as the heuristic function. 
 For the original Carillo-Lipman implementation, z is obtained using the center star alignment method which is a very efficient 2-approximation of the optimal answer.   
 
 Note: The implementation actually solves the weighted edit distance problem (a minimization problem with non-negative "costs"),
@@ -76,7 +75,6 @@ public:
     aligner_t(scoring_function_t& _scoring) : scoring(_scoring) {}
     virtual std::pair<sequences_t,score_t> get_alignment(const sequences_t& seqs) = 0;
     virtual ~aligner_t(){}
-
 };
 
 class astar_aligner_t : public aligner_t;
