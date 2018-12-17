@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 			cout << "usage: " << argv[0] << " [OPTIONS]\n" <<
 			"\t OPTIONS:\n" <<
 					"\t\t" << "-h,--help\t\t" << "print this help message\n" <<
-					"\t\t" << "-a,--aligner <name>\t" << "set aligner type, one of\n\t\t\tastar: A* with Carrillo-Lipman (CL) heuristic\n\t\t\tcl-cs: original CL method, z from center star alignment\n\t\t\tdp: naive dynamic programming. default: astar\n" <<
+					"\t\t" << "-a,--aligner <name>\t" << "set aligner type, one of\n\t\t\tastar: A* with Carrillo-Lipman (CL) heuristic (default)\n\t\t\tcl-cs: original CL method, z from center star alignment\n\t\t\tdp: naive dynamic programming\n" <<
 					"\t\t" << "-s,--score <file>\t" << "uses the provided scoring file.\n\t\t\tdefault: 1 for mismatch and gap, 0 otherwise\n" <<
 					endl;
 			return 0;

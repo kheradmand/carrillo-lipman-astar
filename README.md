@@ -77,9 +77,9 @@ public:
     virtual ~aligner_t(){}
 };
 
-class astar_aligner_t : public aligner_t;
-class cl_star_aligner_t : public aligner_t;
-class dp_aligner_t : public aligner_t;
+class astar_aligner_t : public aligner_t; (astar_aligner.h)
+class cl_star_aligner_t : public aligner_t; (cl_star_aligner.h)
+class dp_aligner_t : public aligner_t; (dp_aligner.h)
 ```
 
 `setquece_t` is a vector of strings (as input and output of alignment).
